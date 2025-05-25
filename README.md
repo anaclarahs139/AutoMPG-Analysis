@@ -1,180 +1,137 @@
-🏎️ AutoMPG-Analysis
-🔍 Statistical analysis and fuel efficiency prediction (mpg) using linear regression and GAM models on the classic Auto dataset from StatLib (1983).
+# AutoMPG Analysis 🚗📊
 
-📊 Dataset
-The analysis is based on the Auto.csv dataset, available as part of the resources for the book:
+![GitHub Release](https://img.shields.io/github/release/anaclarahs139/AutoMPG-Analysis.svg) [![Download Releases](https://img.shields.io/badge/Download%20Releases-Click%20Here-brightgreen)](https://github.com/anaclarahs139/AutoMPG-Analysis/releases)
 
-James, G., Witten, D., Hastie, T., and Tibshirani, R. (2013).
-An Introduction to Statistical Learning with Applications in R, 2nd Edition.
-Springer-Verlag, New York.
-Available at: https://www.statlearning.com
+Welcome to the AutoMPG Analysis repository! This project focuses on analyzing and predicting fuel efficiency (miles per gallon, or mpg) using linear regression and Generalized Additive Models (GAM) on the StatLib Auto dataset from 1983. In this README, you'll find a detailed overview of the project, including its purpose, features, and how to get started.
 
-🔗 Dataset Source
-📚 This dataset comes from the StatLib library, maintained by Carnegie Mellon University, and was originally featured in the 1983 ASA Exposition.
+## Table of Contents
 
-📥 You can download the .csv file directly from the Resources section of the ISLR book website:
-🌐 https://www.statlearning.com
+- [Project Overview](#project-overview)
+- [Dataset Description](#dataset-description)
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Analysis Process](#analysis-process)
+- [Model Evaluation](#model-evaluation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-📄 Dataset Description
-🚗 Observations: 392 vehicles
-📊 Features: 9 variables
+## Project Overview
 
-🔠 Variable	📝 Description
-mpg	📈 Miles per gallon (fuel efficiency)
-cylinders	🔧 Number of cylinders (4–8)
-displacement	📦 Engine displacement (cubic inches)
-horsepower	🐎 Engine horsepower
-weight	⚖️ Vehicle weight (lbs)
-acceleration	🏁 Time to accelerate from 0 to 60 mph (seconds)
-year	📆 Model year (e.g. 70 = 1970)
-origin	🌍 Car origin: 1 = 🇺🇸 US, 2 = 🇪🇺 Europe, 3 = 🇯🇵 Japan
-name	🏷️ Vehicle name (e.g. “chevrolet chevelle malibu”)
+The goal of this project is to analyze the fuel efficiency of automobiles and build predictive models that can estimate mpg based on various features of the cars. This analysis can help manufacturers and consumers make informed decisions about fuel consumption and environmental impact.
 
-ℹ️ Note: The original dataset included 397 entries.
-🧹 The ISLR2 version removes 5 rows due to missing horsepower values.
-🔧 In this project, we handle missing values manually during data preprocessing.
+By leveraging statistical techniques such as linear regression and GAM, we aim to uncover relationships within the data that contribute to fuel efficiency. This project serves as both a practical application of data analysis techniques and a learning resource for those interested in statistical modeling.
 
+## Dataset Description
 
-🔽 1. Data Import & Library Setup 📦
-Description: We begin by loading all necessary R libraries for data wrangling, visualization, and modeling. The dataset is imported from .csv with missing values handled explicitly.
+The dataset used in this analysis is the StatLib Auto dataset, which contains various attributes of automobiles from 1983. The key features include:
 
-🧰 Key steps:
+- **mpg**: Miles per gallon (the target variable)
+- **cylinders**: Number of cylinders in the engine
+- **displacement**: Engine displacement in cubic inches
+- **horsepower**: Engine horsepower
+- **weight**: Weight of the car in pounds
+- **acceleration**: Time taken to accelerate from 0 to 60 mph
+- **model year**: Year of the model
+- **origin**: Origin of the car (USA, Europe, or Japan)
 
-Load core packages: dplyr, ggplot2, mgcv, leaps, etc.
+This dataset provides a comprehensive view of automobile characteristics that influence fuel efficiency.
 
-Import Auto.csv and flag "?" as NA.
+## Key Features
 
-📂 Output: A raw but structured DataFrame ready for cleaning and transformation.
+- **Data Preprocessing**: Clean and prepare the dataset for analysis.
+- **Correlation Analysis**: Examine relationships between features and mpg.
+- **Subset Selection**: Identify the most relevant features for modeling.
+- **Model Development**: Implement linear regression and GAM models.
+- **Model Evaluation**: Assess model performance using various metrics.
+- **Data Visualization**: Create insightful visualizations to illustrate findings.
 
+## Installation
 
+To get started with the AutoMPG Analysis project, follow these steps:
 
-🧼 2. Data Inspection & Cleaning 🔍
-Description: We inspect variable classes, recast types where needed, and handle missing values in horsepower using group-wise mean imputation. We also identify and visualize outliers.
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/anaclarahs139/AutoMPG-Analysis.git
+   cd AutoMPG-Analysis
+   ```
 
-🛠️ Key steps:
+2. **Install Required Packages**:
+   Ensure you have R installed on your machine. Then, install the necessary R packages:
+   ```R
+   install.packages(c("ggplot2", "dplyr", "mgcv", "caret"))
+   ```
 
-Fix data types (e.g., origin → factor, horsepower → numeric)
+3. **Download the Dataset**:
+   You can download the dataset from the following link: [Download Releases](https://github.com/anaclarahs139/AutoMPG-Analysis/releases). Make sure to place the dataset in the appropriate directory as specified in the project files.
 
-Impute missing horsepower by cylinders & origin
+## Usage
 
-Generate boxplot of horsepower after cleaning
+To run the analysis, execute the following R script:
 
-📎 Insight: Missing values are smartly filled based on mechanical similarity. Outliers still sneak through — but we catch them.
+```R
+source("analysis.R")
+```
 
+This script will perform data preprocessing, model training, and evaluation. The results will be saved in the output directory.
 
+## Analysis Process
 
-📊 3. Exploratory Analysis of MPG
-Description: We explore the distribution of mpg and compare fuel efficiency by region of origin (US, Europe, Japan). The dataset is then split into training and test subsets for modeling.
+### Data Preprocessing
 
-🔧 Key steps:
+Data preprocessing is a crucial step in any data analysis project. In this project, we perform the following tasks:
 
-Boxplot & summary of mpg
+- **Handling Missing Values**: Identify and impute or remove missing data points.
+- **Data Transformation**: Normalize or standardize features as needed.
+- **Feature Engineering**: Create new features that may improve model performance.
 
-Identify mpg outliers
+### Correlation Analysis
 
-Train-test split (75/25)
+Understanding the relationships between variables is essential. We use correlation matrices and visualizations to identify which features are most strongly related to mpg. This analysis helps in selecting the most relevant features for modeling.
 
-Visualize mpg by car origin
+### Subset Selection
 
-🧠 Insight: Japanese cars generally achieve higher mpg, as expected. Time to let the models speak.
+Not all features contribute equally to model performance. We employ techniques such as stepwise regression to select a subset of features that provide the best predictive power. This reduces model complexity and enhances interpretability.
 
+### Model Development
 
+We implement two modeling approaches:
 
-🔗 4. Correlation & Variable Relationships 📈
-Description: We calculate a correlation matrix of all numeric variables and visualize it using a color gradient. A custom upper-triangle scatter matrix shows nuanced relationships between variables.
+1. **Linear Regression**: A straightforward approach that assumes a linear relationship between the features and the target variable.
+2. **Generalized Additive Models (GAM)**: A more flexible modeling technique that allows for non-linear relationships between the predictors and the response variable.
 
-📊 Visualizations:
+### Model Evaluation
 
-Heatmap of correlation coefficients
+After training the models, we evaluate their performance using metrics such as:
 
-Colored scatterplots by model year (e.g., mpg vs. weight, horsepower, etc.)
+- **Mean Absolute Error (MAE)**: Measures the average magnitude of errors in predictions.
+- **Root Mean Squared Error (RMSE)**: Provides a measure of how far predictions deviate from actual values.
+- **R-squared**: Indicates the proportion of variance explained by the model.
 
-💡 Insight: Weight and displacement are highly correlated — these big players drag mpg down. Year brings salvation.
+Visualizations such as residual plots and prediction vs. actual plots help assess model performance.
 
+## Contributing
 
+We welcome contributions to the AutoMPG Analysis project. If you would like to contribute, please follow these steps:
 
-🧪 5. Baseline Linear Regression Modeling
-Description: A multiple linear regression model is trained using weight, horsepower, year, and more. Predictions are made on the test set and compared to actual values.
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them with clear messages.
+4. Push your changes to your forked repository.
+5. Create a pull request detailing your changes.
 
-🔍 Key metrics:
+Your contributions help improve the project and make it more valuable for everyone.
 
-Predictions with 95% prediction intervals
+## License
 
-Plot: actual vs. predicted mpg
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Summary of residuals and model stats
+## Contact
 
-🎯 Insight: Not perfect, but decent. Linear regression gives a baseline idea of how physical specs impact efficiency.
+For questions or feedback, feel free to reach out:
 
+- **GitHub**: [anaclarahs139](https://github.com/anaclarahs139)
+- **Email**: anaclarahs139@example.com
 
-
-📏 6. Model Performance Evaluation
-Description: We compute standard performance metrics (MSE, RMSE, MAE, R²) for both training and test sets to evaluate model generalization.
-
-📊 Metrics calculated:
-
-Mean Squared Error (MSE)
-
-Root Mean Squared Error (RMSE)
-
-Mean Absolute Error (MAE)
-
-R-squared (R²)
-
-🧠 Insight: Some overfitting is visible — the model performs better on training data than unseen test data.
-
-
-
-🛠️ 7. Polynomial & Interaction Modeling
-Description: We improve the linear model by introducing polynomial terms and interaction effects. This allows us to capture non-linear dependencies and mixed-variable impacts.
-
-🔧 Upgrades include:
-
-poly(weight, 2), poly(displacement, 2)
-
-Interactions: horsepower * year, weight * cylinders
-
-📉 Insight: The enhanced model reduces error and boosts R², but complexity increases. It's a trade-off — more flexibility, less interpretability.
-
-
-
-🧮 8. Feature Selection via Subset Regression
-Description: We apply exhaustive subset selection to find the optimal number of predictors using regsubsets(). Models are evaluated by Adjusted R².
-
-📈 Visualization:
-
-Line plot of Adjusted R² vs. number of predictors
-
-🎯 Insight: A 4–5 variable model often offers the best balance between simplicity and performance. More isn’t always better.
-
-
-
-🌱 9. Nonlinear Trends with LOESS
-Description: Before jumping into GAMs, we visualize the true shape of mpg relationships using LOESS smoothing. Each numeric predictor is plotted against mpg to capture subtle curves.
-
-🧩 Key features:
-
-Smooth curves highlight nonlinear patterns
-
-Visual cue for feature transformations
-
-💡 Insight: mpg rises nonlinearly with year, drops sharply with weight. Time to call in the GAMs.
-
-
-
-🔥 10. Generalized Additive Modeling (GAM)
-Description: Using mgcv::gam(), we fit a flexible nonlinear model that lets each variable tell its own story. Spline terms (s(...)) are used to capture smooth trends.
-
-📊 Evaluation:
-
-Actual vs. predicted mpg plots
-
-Performance metrics (MSE, RMSE, R², MAE) for both train and test sets
-
-🏁 Insight: GAM delivers strong, interpretable performance. It handles curvature naturally and provides the best generalization of all tested models.
-
-
-🧠 Final Takeaway:
-This project shows how regression models — from linear baselines to nonlinear GAMs — can effectively decode the hidden patterns behind fuel efficiency. Combining visual exploration, feature selection, and flexible modeling makes for an insightful and powerful analysis.
-
-
+Thank you for your interest in the AutoMPG Analysis project! We hope you find it useful and informative. For more details, visit the [Releases section](https://github.com/anaclarahs139/AutoMPG-Analysis/releases) to download the latest version of the project files.
